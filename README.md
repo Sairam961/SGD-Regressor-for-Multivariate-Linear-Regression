@@ -84,9 +84,10 @@ plt.legend()
 plt.show()
 
 
-## Output:
-![multivariate linear regression model for predicting the price of the house and number of occupants in the house](sam.png)
+## Output: 
+<img src="ex4 output 1.png" alt="Output" width="500">
 
+<img src="ex4 output 2.png" alt="Output" width="500">
 
 ## Result:
 Thus the program to implement the multivariate linear regression model for predicting the price of the house and number of occupants in the house with SGD regressor is written and verified using python programming.
