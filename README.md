@@ -21,7 +21,6 @@ Developed by: R.Sairam
 RegisterNumber:  25000694
 */
 ```
-
 import pandas as pd
 
 import numpy as np
@@ -34,27 +33,49 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import mean_squared_error, r2_score
 
+from sklearn.preprocessing import StandardScaler
+
 X = np.array([[1200, 3], [1500, 4], [800, 2], [2000, 5], [1700, 4], [1000, 3]])
 
 y = np.array([200000, 250000, 150000, 320000, 280000, 180000])
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-sgd = SGDRegressor(max_iter=1000, tol=1e-3, learning_rate='invscaling', eta0=0.01)
+scaler_X = StandardScaler()
 
-sgd.fit(X_train, y_train)
+scaler_y = StandardScaler()
 
-y_pred = sgd.predict(X_test)
+X_train_scaled = scaler_X.fit_transform(X_train)
+
+X_test_scaled = scaler_X.transform(X_test)
+
+y_train_scaled = scaler_y.fit_transform(y_train.reshape(-1,1)).ravel()
+
+sgd = SGDRegressor(max_iter=2000, tol=1e-3, learning_rate='constant', eta0=0.001, random_state=42)
+
+sgd.fit(X_train_scaled, y_train_scaled)
+
+y_pred_scaled = sgd.predict(X_test_scaled)
+
+y_pred = scaler_y.inverse_transform(y_pred_scaled.reshape(-1,1)).ravel()
 
 print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
 
 print("R² Score:", r2_score(y_test, y_pred))
 
-print("Price of the house:",y_pred)
+print("\nComparison (Actual vs Predicted):")
+
+for actual, pred in zip(y_test, y_pred):
+
+  print("Actual: ",actual, Predicted: ",pred)
 
 plt.scatter(range(len(y_test)), y_test, color='blue', label='Actual Price')
 
 plt.scatter(range(len(y_test)), y_pred, color='red', marker='x', label='Predicted Price')
+
+plt.plot(range(len(y_test)), y_test, color='blue', linestyle='-')
+
+plt.plot(range(len(y_test)), y_pred, color='red', linestyle='--')
 
 plt.title("Actual vs Predicted House Prices")
 
