@@ -69,25 +69,19 @@ for actual, pred in zip(y_test, y_pred):
 
   print("Actual: ",actual, Predicted: ",pred)
 
-plt.scatter(range(len(y_test)), y_test, color='blue', label='Actual Price')
+plt.scatter(y_test, y_pred, color='red', label='Predicted vs Actual')
 
-plt.scatter(range(len(y_test)), y_pred, color='red', marker='x', label='Predicted Price')
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()],color='blue', linestyle='--', label='Predicted')
 
-plt.plot(range(len(y_test)), y_test, color='blue', linestyle='-')
+plt.title("SGD Regression - House Prices")
 
-plt.plot(range(len(y_test)), y_pred, color='red', linestyle='--')
+plt.xlabel("Actual Price")
 
-plt.title("Actual vs Predicted House Prices")
-
-plt.xlabel("Test House")
-
-plt.ylabel("Price")
+plt.ylabel("Predicted Price")
 
 plt.legend()
 
 plt.show()
-
-
 
 
 ## Output:
